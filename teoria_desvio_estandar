@@ -1,0 +1,168 @@
+El **desvío estándar** es una medida estadística que indica **qué tan dispersos están los datos respecto de su promedio (media)**. Dicho de forma intuitiva: mide **qué tan “lejos” suelen estar los valores del valor promedio**.
+
+---
+
+## 1. ¿Qué es exactamente?
+
+Si tenés un conjunto de datos y calculás su media, el desvío estándar te responde:
+
+> *“En promedio, ¿cuánto se alejan los valores individuales de la media?”*
+
+* **Desvío estándar bajo** → los datos están **concentrados** cerca de la media
+* **Desvío estándar alto** → los datos están **muy dispersos**
+
+Ejemplo simple:
+
+* Ingresos: `[99, 100, 101]` → desvío muy bajo
+* Ingresos: `[10, 100, 1000]` → desvío muy alto
+
+Ambos pueden tener medias parecidas, pero la **variabilidad** es totalmente distinta.
+
+---
+
+## 2. ¿Cómo se mide? (la lógica detrás)
+
+La idea es medir distancias respecto a la media, pero haciéndolo de forma consistente.
+
+### Paso a paso conceptual
+
+1. **Calculás la media**
+2. **Calculás la diferencia de cada dato respecto a la media**
+3. **Elevás esas diferencias al cuadrado**
+
+   * Para evitar que los positivos y negativos se cancelen
+4. **Promediás esas diferencias cuadradas**
+
+   * Eso se llama **varianza**
+5. **Sacás la raíz cuadrada**
+
+   * Volvés a la misma unidad original
+
+👉 **Desvío estándar = raíz cuadrada de la varianza**
+
+---
+
+### Fórmula (poblacional)
+
+[
+\sigma = \sqrt{\frac{1}{N} \sum (x_i - \mu)^2}
+]
+
+### Fórmula (muestral)
+
+[
+s = \sqrt{\frac{1}{n-1} \sum (x_i - \bar{x})^2}
+]
+
+📌 La diferencia clave:
+
+* **Población** → dividís por `N`
+* **Muestra** → dividís por `n - 1` (corrección de Bessel)
+
+Esto último evita subestimar la dispersión cuando trabajás con muestras.
+
+---
+
+## 3. ¿Para qué sirve?
+
+El desvío estándar sirve para **entender variabilidad, riesgo, incertidumbre y estabilidad**.
+
+### Algunos usos típicos:
+
+### 📊 Análisis de datos
+
+* Comparar datasets con la misma media
+* Detectar outliers
+* Evaluar consistencia de métricas (ej: transacciones por usuario)
+
+### 📉 Finanzas / Riesgo
+
+* Medir **volatilidad**
+* Estimar riesgo de retornos
+* Comparar activos con mismo retorno esperado
+
+### 🧪 Experimentos / Producto
+
+* Ver si una métrica es estable o ruidosa
+* Evaluar impacto real de cambios (A/B testing)
+
+### 🚨 Fraude / Comportamiento
+
+* Detectar comportamientos anómalos
+  (ej: montos > media + 3 desvíos)
+
+---
+
+## 4. ¿Cuándo se usa (y cuándo no)?
+
+### Se usa cuando:
+
+* Los datos son **numéricos**
+* Querés medir **variabilidad**
+* La media es representativa
+* La distribución es más o menos simétrica (idealmente normal)
+
+### No es ideal cuando:
+
+* La distribución es muy asimétrica
+* Hay muchos outliers extremos
+* Trabajás con medianas (mejor IQR)
+
+En esos casos suele ser mejor:
+
+* **Rango intercuartílico (IQR)**
+* **MAD (median absolute deviation)**
+
+---
+
+## 5. Regla empírica (muy usada)
+
+Si los datos siguen una **distribución normal**:
+
+* ~68% de los datos están en `μ ± 1σ`
+* ~95% en `μ ± 2σ`
+* ~99.7% en `μ ± 3σ`
+
+Esto es clave para:
+
+* Alertas
+* Umbrales
+* Análisis de riesgo
+
+Ejemplo:
+
+> Si el monto promedio es 100 USD y σ = 15
+> Montos > 145 USD ya son raros (μ + 3σ)
+
+---
+
+## 6. Ejemplo práctico (pensado para tu contexto)
+
+Supongamos:
+
+* Métrica: **monto diario transaccionado por usuario**
+* Media: 200 USD
+* Desvío estándar: 20 USD
+
+Interpretación:
+
+* Usuarios normales: entre 180 y 220
+* Usuarios > 260: **potencial anomalía / caso a investigar**
+
+Esto es mucho más informativo que solo mirar la media.
+
+---
+
+## 7. Resumen corto
+
+* **Qué es**: medida de dispersión respecto a la media
+* **Qué mide**: variabilidad
+* **Para qué sirve**: riesgo, estabilidad, detección de anomalías
+* **Cuándo usarla**: datos numéricos, media representativa
+* **Cuándo evitarla**: outliers fuertes, distribuciones sesgadas
+
+Si querés, en el próximo mensaje puedo:
+
+* Mostrar un ejemplo en **SQL (BigQuery)**
+* Compararla con **varianza, IQR o percentiles**
+* Aplicarla a un **caso real de fraude o producto**
